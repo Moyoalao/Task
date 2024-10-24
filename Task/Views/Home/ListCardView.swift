@@ -55,15 +55,13 @@ struct ListCardView: View {
 }
 
 #Preview {
-    do{
+   
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: Reminder.self, configurations: config)
-        let example = ReminderList(name:"Today", iconName: "sum.max.fill", reminders: [Reminder: "walk the dog"])
+        let container = try! ModelContainer(for: ReminderList.self, configurations: config)
+        let example = ReminderList(name:"Today", iconName: "sum.max.fill", reminders: [Reminder(name: "Walk the dog")])
         
-        return ListCardView(reminderList: example)
-            .modelContainer(container)
+         ListCardView(reminderList: example)
+        .modelContext(container.mainContext)
         
-    }catch {
-        fatalError("Failed to create model container: \(error)")
-    }
+    
 }

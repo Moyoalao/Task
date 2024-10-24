@@ -37,16 +37,15 @@ struct RemiderListRowView: View {
 }
 
 #Preview {
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: ReminderList.self, configurations: config)
+    let example = ReminderList(name: "Example", 
+                             iconName: "iphone",
+                             reminders: [
+                                Reminder(name:"Task1"),
+                                Reminder(name:"Call Mom")
+                             ])
     
-    do {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: ReminderList.self, configurations: config)
-        let example = ReminderList(name: "Example", iconName: "iphone", reminders: [Reminder(name:"Task1"), Reminder(name:"Call Mom")])
-        
-        return RemiderListRowView(remiderList: example)
-            .modelContext(container)
-    }catch {
-        fatalError("Error: \(error)")
-    }
-    }
-
+    RemiderListRowView(remiderList: example)
+        .modelContext(container.mainContext)  
+}
